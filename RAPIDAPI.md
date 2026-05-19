@@ -244,6 +244,4 @@ new ESCO data, etc.) bump `pipeline_version` only — schema stays stable.
 
 ## Support
 
-- Source: https://github.com/your-org/resume-parser
-- Issues: https://github.com/your-org/resume-parser/issues
-- Email: support@example.com
+`solutions@slifer.fr`. Typical response time under 24 hours on business days. For enterprise SLA, on-prem licensing, bulk pricing, or async/batch endpoint access for high-volume workflows, mention it in the first message.
