@@ -13,9 +13,10 @@ This tutorial shows how to turn that into a working skill graph in
 Postgres (relational) or Neo4j (graph). Use whichever fits your
 stack.
 
-**You'll need**: a working `/parse` call (see the
-[Quickstart](./1-quickstart.md)), Python 3.9+, and one of: Postgres
-14+ with `psycopg`, or Neo4j 5+ with the official driver.
+**You'll need**: a working `/parse` call (see the **Quickstart**
+tutorial on this listing if you don't have one yet), Python 3.9+,
+and one of: Postgres 14+ with `psycopg`, or Neo4j 5+ with the
+official driver.
 
 ## What the response actually contains
 
@@ -193,8 +194,10 @@ useful in a graph anyway.
 
 ## What to do next
 
-- **[Filter resumes for human review with confidence scores](./2-confidence.md)** — the `confidence.skills.value` field tells you which parses to trust before ingesting.
-- **[Add resume upload to a Next.js application](./4-nextjs.md)** — wire this into a candidate-facing form.
+Two other tutorials on this listing are useful follow-ups:
 
-The full schema for every field on `skills[]` is in the
-[developer guide](../RAPIDAPI.md#response-schema-resumev1).
+- **Filter resumes for human review with confidence scores** — the `confidence.skills.value` field tells you which parses to trust before ingesting.
+- **Add resume upload to a Next.js application** — wire this into a candidate-facing form.
+
+The full schema for every field on `skills[]` is in the developer
+guide on this listing's About tab.

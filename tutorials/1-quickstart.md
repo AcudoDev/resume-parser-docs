@@ -153,10 +153,11 @@ JSON but does not have the `resume` key.
 
 ## What to do next
 
-You now have a working parse. Two natural next steps:
+You now have a working parse. Two other tutorials on this listing
+extend what you just built:
 
-- **[Filter resumes for human review with confidence scores](./2-confidence.md)** — the killer feature for HR-tech teams.
-- **[Map candidates to your skill graph using ESCO URIs](./3-esco.md)** — turn the `esco_uri` field into a relational join key.
+- **Filter resumes for human review with confidence scores** — the killer feature for HR-tech teams.
+- **Map candidates to your skill graph using ESCO URIs** — turn the `esco_uri` field into a relational join key.
 
 For the full reference (all fields, all error codes, all limits), see
-the [developer guide](../RAPIDAPI.md).
+the developer guide on this listing's About tab.

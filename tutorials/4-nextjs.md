@@ -11,8 +11,8 @@ PDF/DOCX, parses it via the API, and renders the candidate's name,
 skills, and confidence scores.
 
 **You'll need**: Node 18+, a fresh Next.js 15 project (`npx
-create-next-app@latest`), and a RapidAPI key (see the
-[Quickstart](./1-quickstart.md) if you don't have one yet).
+create-next-app@latest`), and a RapidAPI key (see the **Quickstart**
+tutorial on this listing if you don't have one yet).
 
 ## 1. Project setup
 
@@ -276,8 +276,10 @@ console.log({
 
 ## What to do next
 
-- **[Filter resumes for human review with confidence scores](./2-confidence.md)** — apply the bucket pattern to your Route Handler so the right parses go to your review queue.
-- **[Map candidates to your skill graph using ESCO URIs](./3-esco.md)** — store the parsed skills in Postgres or Neo4j so they're queryable across candidates.
+Two other tutorials on this listing build on the upload form:
+
+- **Filter resumes for human review with confidence scores** — apply the bucket pattern to your Route Handler so the right parses go to your review queue.
+- **Map candidates to your skill graph using ESCO URIs** — store the parsed skills in Postgres or Neo4j so they're queryable across candidates.
 
 For the full reference (limits, error codes, every field), see the
-[developer guide](../RAPIDAPI.md).
+developer guide on this listing's About tab.

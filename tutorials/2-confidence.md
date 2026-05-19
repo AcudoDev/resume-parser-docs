@@ -9,8 +9,8 @@ queue while auto-processing the rest.
 This tutorial shows the pattern most ATS / recruitment platforms use
 to turn that signal into an actionable workflow.
 
-**You'll need**: a working `/parse` call (see the
-[Quickstart](./1-quickstart.md)) and Python 3.9+.
+**You'll need**: a working `/parse` call (see the **Quickstart**
+tutorial on this listing if you don't have one yet) and Python 3.9+.
 
 ## What the scores actually mean
 
@@ -134,8 +134,10 @@ and the reviewer can resolve most cases in under 30 seconds.
 
 ## What to do next
 
-- **[Map candidates to your skill graph using ESCO URIs](./3-esco.md)** — the next layer after intake quality is intake structure.
-- **[Add resume upload to a Next.js application](./4-nextjs.md)** — wire this into a candidate-facing form.
+Two other tutorials on this listing build on what you just learned:
+
+- **Map candidates to your skill graph using ESCO URIs** — the next layer after intake quality is intake structure.
+- **Add resume upload to a Next.js application** — wire this into a candidate-facing form.
 
 For the canonical reference on every confidence field, see the
-[developer guide](../RAPIDAPI.md#confidence-scores).
+developer guide on this listing's About tab.
