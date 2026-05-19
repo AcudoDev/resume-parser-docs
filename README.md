@@ -12,6 +12,7 @@ The implementation source code lives in a private repository.
 | [`RAPIDAPI.md`](RAPIDAPI.md) | Developer guide: authentication, endpoints, request/response examples in cURL / Python / JavaScript, error codes, limits. |
 | [`PRIVACY.md`](PRIVACY.md) | GDPR-compliant privacy policy. Describes how we process resume content and what metadata we retain. |
 | [`TERMS.md`](TERMS.md) | Terms of Service. Acceptable use, IP rights, limitation of liability, governing law. |
+| [`tutorials/`](tutorials/) | Step-by-step integration walkthroughs (quickstart, confidence scoring, ESCO skill graph, Next.js upload form). |
 
 ## What is the Resume Parser API?
 
