@@ -19,13 +19,16 @@ truth — edit here, then copy-paste into the RapidAPI editor.
 
 ## Banner images
 
-Each tutorial uploads with a banner image to RapidAPI. The banners
-live in [`banners/`](./banners/) and are referenced via the raw
-GitHub URL when configuring the tutorial on the RapidAPI editor:
+Each tutorial has an accompanying banner image (1200×675 PNG)
+displayed at the top of the tutorial page on the RapidAPI listing.
 
-```
-https://raw.githubusercontent.com/AcudoDev/resume-parser-docs/main/tutorials/banners/banner-1-quickstart.png
-```
+The banners live in [`banners/`](./banners/) and are uploaded
+directly via the RapidAPI Studio editor (the "image" field accepts
+file uploads — no need to host them at a public URL).
+
+The PNGs in this directory are the source of truth for what was
+uploaded. If you need to swap a banner, edit the PNG here, push to
+this repo, then re-upload through the editor.
 
 ## Adding a new tutorial
 
@@ -37,8 +40,8 @@ https://raw.githubusercontent.com/AcudoDev/resume-parser-docs/main/tutorials/ban
    private repo for the generator).
 4. Add a row to the table above.
 5. In the RapidAPI Studio editor (Tutorials tab → New tutorial),
-   paste the title, the raw-URL of the banner, and the Markdown
-   content. Save as draft, preview, then publish.
+   paste the title, upload the banner PNG from `banners/`, and
+   paste the Markdown content. Save as draft, preview, then publish.
 
 ## Cross-tutorial links
 
