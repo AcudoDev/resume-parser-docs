@@ -1,29 +1,26 @@
 # Get your first parse in 5 minutes
 
-This tutorial walks you through your first successful `/parse` call,
-from getting your API key to reading the JSON response. By the end,
-you'll have parsed one resume and know what every field in the
-response means.
+Five minutes from API key to a parsed resume. The `/parse` endpoint
+takes a file and returns JSON. That's the whole interface. This page
+covers three steps: get a key, send a request, read the response.
 
-**Prerequisites**: a RapidAPI account (free) and either `curl`,
-Python 3.9+, or Node 18+ on your machine.
+You need a RapidAPI account (free) and one of: `curl`, Python 3.9+,
+or Node 18+.
 
 ## 1. Subscribe to a plan
 
-The Resume Parser API has a **Basic** tier that's free forever
-(50 calls/month, no credit card required). Click "Subscribe to Test"
-on the [listing page](https://rapidapi.com/AcudoDev/api/resume-parser20)
-and choose **Basic**.
+The **Basic** tier is free forever. 50 calls per month, no credit
+card. Click "Subscribe to Test" on the
+[listing page](https://rapidapi.com/AcudoDev/api/resume-parser20)
+and pick Basic.
 
-Once subscribed, RapidAPI shows your `X-RapidAPI-Key` in the upper
-right of any code snippet on the listing. Copy it — you'll need it
-in the next step.
+Once subscribed, your `X-RapidAPI-Key` shows in the upper right of
+any code snippet on the listing. Copy it.
 
 ## 2. Send your first request
 
-Pick whichever language you're most comfortable with. All three
-snippets below do the same thing: upload a local PDF and print the
-parsed JSON.
+Three equivalent snippets below. Each uploads a local PDF and prints
+the parsed JSON. Pick whichever language you're on.
 
 ### cURL
 
@@ -78,15 +75,14 @@ console.log(data.resume.identity.full_name);
 console.log(data.resume.skills.slice(0, 3));
 ```
 
-The call typically takes **~15 seconds** for a text-native PDF —
-that's the time the LLM pipeline needs to extract, ESCO-normalize,
-and validate the result. Scanned PDFs (vision pipeline) and very
-long resumes can take up to **~22 seconds** at p95.
+Expect **~15 seconds** on a text-native PDF. That's the LLM pipeline
+running extract, ESCO-normalize and validate in series. Scanned PDFs
+go through the vision model. Long resumes push p95 to ~22 seconds.
 
 ## 3. Read the response
 
-A successful parse returns a single JSON object with two top-level
-keys: `resume` (the structured data) and `metadata` (request info).
+A successful parse returns one JSON object with two top-level keys:
+`resume` (the structured data) and `metadata` (request info).
 
 ```json
 {
@@ -124,40 +120,40 @@ keys: `resume` (the structured data) and `metadata` (request info).
 }
 ```
 
-The fields most consumers use first:
+The fields most consumers touch first:
 
 | Path | What it is |
 |---|---|
 | `resume.identity.full_name` | Candidate name |
 | `resume.contact.email` | Primary email if found |
 | `resume.skills[].esco_uri` | ESCO canonical URI per skill (joinable across systems) |
-| `resume.confidence.<section>.value` | 0.0–1.0 score per section, with a `reason` string when below 0.7 |
+| `resume.confidence.<section>.value` | 0.0 to 1.0 score per section, with a `reason` string when below 0.7 |
 | `resume.detected_language` | `"en"` or `"fr"` |
 | `metadata.request_id` | UUID to give us if you ever open a support ticket |
 
 ## 4. Handle the common errors
 
-Errors come back as JSON with a `detail` field. You'll most often see:
+Errors come back as JSON with a `detail` field. The five you'll
+hit most often:
 
 | HTTP | Meaning | What to do |
 |---:|---|---|
-| **413** | File over 10 MB | Compress the PDF, or check that the request isn't double-encoded |
-| **415** | Unsupported MIME type | Convert to PDF / DOCX / image / text |
-| **422** | Document is empty, too short, or unreadable | Send a text-native PDF; the OCR fallback only runs on images |
+| **413** | File over 10 MB | Compress the PDF, or check the request isn't double-encoded |
+| **415** | Unsupported MIME type | Convert to PDF, DOCX, image, or text |
+| **422** | Document is empty, too short, or unreadable | Send a text-native PDF. The OCR fallback only runs on images |
 | **429** | Rate limit hit on your plan | Back off, or upgrade to a higher tier |
-| **504** | Pipeline stage exceeded its budget | Retry once; if it persists, the file likely has an extraction issue |
+| **504** | Pipeline stage exceeded its budget | Retry once. If it persists, the file likely has an extraction issue |
 
-Always check `response.status_code` (or `response.ok`) before
-calling `.json()` — the body of an error response is still valid
-JSON but does not have the `resume` key.
+Always check `response.status_code` (or `response.ok`) before calling
+`.json()`. The body of an error response is still valid JSON, but it
+won't have the `resume` key.
 
 ## What to do next
 
-You now have a working parse. Two other tutorials on this listing
-extend what you just built:
+Two related tutorials on this listing:
 
-- **Filter resumes for human review with confidence scores** — the killer feature for HR-tech teams.
-- **Map candidates to your skill graph using ESCO URIs** — turn the `esco_uri` field into a relational join key.
+- **Filter resumes for human review with confidence scores**: the differentiator for HR-tech teams.
+- **Map candidates to your skill graph using ESCO URIs**: turn the `esco_uri` field into a relational join key.
 
-For the full reference (all fields, all error codes, all limits), see
-the developer guide on this listing's About tab.
+For the full reference (every field, every error code, every limit),
+see the developer guide on this listing's About tab.

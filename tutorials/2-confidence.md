@@ -1,16 +1,15 @@
 # Filter resumes for human review with confidence scores
 
-LLM-powered parsers sometimes fabricate. They might invent a phone
-number that "looks plausible" or assign a skill that's only loosely
-implied by the resume. The Resume Parser API ships **per-section
-confidence scores** so you can route the suspicious parses to a human
-queue while auto-processing the rest.
+LLM parsers sometimes invent things. A phone number that "looks
+plausible". A skill that's only loosely implied by the resume. The
+Resume Parser API returns a confidence score per section, so you can
+route the dubious parses to a human queue and auto-process the rest.
 
-This tutorial shows the pattern most ATS / recruitment platforms use
-to turn that signal into an actionable workflow.
+This page shows the pattern most ATS and recruitment platforms use to
+turn that signal into a workflow.
 
-**You'll need**: a working `/parse` call (see the **Quickstart**
-tutorial on this listing if you don't have one yet) and Python 3.9+.
+Prereqs: a working `/parse` call (see the **Quickstart** tutorial on
+this listing if you don't have one yet), and Python 3.9+.
 
 ## What the scores actually mean
 
@@ -22,7 +21,7 @@ one per section:
   "identity":         { "value": 1.0,  "reason": null },
   "contact":          { "value": 0.85, "reason": null },
   "summary":          { "value": 1.0,  "reason": null },
-  "work_experiences": { "value": 0.65, "reason": "End date for the 2019 role inferred — not in source" },
+  "work_experiences": { "value": 0.65, "reason": "End date for the 2019 role inferred, not in source" },
   "educations":       { "value": 1.0,  "reason": null },
   "skills":           { "value": 0.92, "reason": null },
   "languages":        { "value": 1.0,  "reason": null },
@@ -34,24 +33,24 @@ The scale is the same across sections:
 
 | Range | What it means |
 |---|---|
-| **1.0** | Section is verifiable in source text — or correctly empty |
-| **0.7 – 0.9** | Minor unverifiable details (dates approximate, location guessed) |
-| **0.4 – 0.6** | Significant unverifiable claims |
-| **0.0 – 0.3** | Section largely fabricated or missed |
+| **1.0** | Section is verifiable in source text, or correctly empty |
+| **0.7 to 0.9** | Minor unverifiable details (dates approximate, location guessed) |
+| **0.4 to 0.6** | Significant unverifiable claims |
+| **0.0 to 0.3** | Section largely fabricated or missed |
 
 When a section drops below **0.7**, the `reason` field contains a
-human-readable explanation of what couldn't be verified.
+short, human-readable explanation of what couldn't be verified.
 
 > **Why per-section, not per-resume?** Confidence is naturally
 > uneven. The identity is often perfectly extracted while the
-> work-experience section has a fuzzy date — averaging into a single
-> score would hide that. With 8 scores, you can route on the exact
-> field that matters to your downstream workflow.
+> work-experience section has a fuzzy date. Averaging into a single
+> score hides that. With 8 scores, you can route on the exact field
+> that matters to your downstream workflow.
 
 ## The 3-bucket review pattern
 
-The common pattern is: **auto-accept the high-confidence parses,
-queue the medium ones, reject the lowest**.
+The common pattern: auto-accept the high-confidence parses, queue
+the medium ones, reject the lowest.
 
 ```python
 import requests
@@ -62,10 +61,10 @@ def classify(parse_response: dict) -> str:
     scores = [section["value"] for section in conf.values()]
 
     if min(scores) >= 0.85:
-        return "auto"           # all sections solid → auto-accept
+        return "auto"           # all sections solid, auto-accept
     if min(scores) >= 0.50:
-        return "review"         # at least one shaky section → queue for human
-    return "reject"             # something is badly broken → ask candidate to re-upload
+        return "review"         # at least one shaky section, queue for human
+    return "reject"             # something is badly broken, ask for re-upload
 
 def collect_review_reasons(parse_response: dict) -> list[str]:
     """Surface the reason strings for any sub-0.7 section.
@@ -103,41 +102,37 @@ match bucket:
 
 ## Tuning the thresholds
 
-The defaults above (0.85 / 0.50) are a reasonable starting point but
-the right values depend on your tolerance vs your team's review
-bandwidth:
+The defaults above (0.85 / 0.50) are a reasonable starting point.
+The right values depend on your tolerance against your team's
+review bandwidth.
 
-- **Strict (0.95 / 0.75)**: high accuracy, high review load. Good for
-  regulated industries (finance, healthcare) where a misparse
-  carries cost.
-- **Loose (0.75 / 0.40)**: fewer humans involved, occasional bad
-  data slips through. Good for high-volume top-of-funnel where you'd
-  rather re-verify later than slow down intake.
+- **Strict (0.95 / 0.75)**: high accuracy, high review load. Good for regulated industries (finance, healthcare) where a misparse carries cost.
+- **Loose (0.75 / 0.40)**: fewer humans involved, occasional bad data slips through. Good for high-volume top-of-funnel where you'd rather re-verify later than slow down intake.
 
 Watch the distribution of `min(scores)` across your first 1,000
-parses — that histogram tells you where to put the cuts. If 80% of
-parses already sit above 0.85, your bottleneck is the 20% — set the
-"review" cutoff to where adding more reviewers actually moves the
+parses. That histogram tells you where to put the cuts. If 80% of
+parses already sit above 0.85, your bottleneck is the 20%. Set the
+"review" cutoff where adding more reviewers actually moves the
 needle.
 
 ## What to show your reviewers
 
-The `reason` field on each sub-0.7 section is written specifically
-to be reviewer-friendly. Example reasons you'll see in production:
+The `reason` field on each sub-0.7 section is written to be
+reviewer-friendly. Examples you'll see in production:
 
-- `"End date for the 2019 role inferred — not in source"`
+- `"End date for the 2019 role inferred, not in source"`
 - `"Phone number formatting suggests E.164 but country code unverified"`
 - `"3 skills present in source but couldn't be mapped to ESCO"`
 
-Surface those next to the candidate's resume PDF in your review UI
-and the reviewer can resolve most cases in under 30 seconds.
+Surface those next to the candidate's resume PDF in your review UI.
+Most reviewers resolve a case in under 30 seconds.
 
 ## What to do next
 
-Two other tutorials on this listing build on what you just learned:
+Two related tutorials on this listing build on what you just learned:
 
-- **Map candidates to your skill graph using ESCO URIs** — the next layer after intake quality is intake structure.
-- **Add resume upload to a Next.js application** — wire this into a candidate-facing form.
+- **Map candidates to your skill graph using ESCO URIs**: the next layer after intake quality is intake structure.
+- **Add resume upload to a Next.js application**: wire this into a candidate-facing form.
 
 For the canonical reference on every confidence field, see the
 developer guide on this listing's About tab.
