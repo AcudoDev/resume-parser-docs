@@ -79,88 +79,34 @@ console.log(data.resume.identity.full_name);
 
 **Response (200)**: see [Response schema](#response-schema-resumev1).
 
-### POST `/parse-async` + GET `/parse/{request_id}` — async + polling
+### Processing multiple resumes
 
-Use this when your client has an HTTP timeout shorter than ~25s
-(common with browser fetches, AWS Lambda, some webhooks). The POST
-returns immediately with a `request_id`; you poll the GET endpoint
-until `status == "succeeded"` or `"failed"`.
+Call `/parse` in parallel from your client. The server handles
+concurrent requests up to your plan's rate limit.
 
-**Step 1 — submit**:
-```bash
-curl -X POST "https://resume-parser20.p.rapidapi.com/parse-async" \
-  -H "X-RapidAPI-Key: <your-key>" \
-  -F "file=@jane_doe.pdf"
-# → { "request_id": "f3e2c0c0-...", "status": "pending",
-#     "poll_url": "/parse/f3e2c0c0-...", "estimated_completion_seconds": 20 }
-```
-
-**Step 2 — poll**:
-```bash
-curl "https://resume-parser20.p.rapidapi.com/parse/f3e2c0c0-..." \
-  -H "X-RapidAPI-Key: <your-key>"
-# → { "status": "running", ... }   # try again in 2-3s
-# → { "status": "succeeded", "resume": {...}, "metadata": {...} }
-```
-
-**Python polling helper**:
 ```python
-import time, requests
+import concurrent.futures, requests
 
-def parse_async(path):
-    submit = requests.post(
-        "https://resume-parser20.p.rapidapi.com/parse-async",
-        headers={"X-RapidAPI-Key": "<your-key>"},
-        files={"file": open(path, "rb")},
-    ).json()
-    rid = submit["request_id"]
-
-    while True:
-        time.sleep(2)
-        snap = requests.get(
-            f"https://resume-parser20.p.rapidapi.com/parse/{rid}",
-            headers={"X-RapidAPI-Key": "<your-key>"},
-        ).json()
-        if snap["status"] in ("succeeded", "failed"):
-            return snap
-```
-
-**Job lifetime**: results are queryable for **1 hour** after completion.
-After that, GET /parse/{id} returns 404. Poll roughly every 2-3s.
-
-### POST `/parse-batch` — bulk processing
-
-Process up to **25 files in one request**, in parallel. Each file's
-result is independent — a failed file does not fail the whole batch.
-
-**cURL**:
-```bash
-curl -X POST "https://resume-parser20.p.rapidapi.com/parse-batch" \
-  -H "X-RapidAPI-Key: <your-key>" \
-  -F "files=@jane.pdf" \
-  -F "files=@alice.docx" \
-  -F "files=@bob.pdf"
-```
-
-**Response**:
-```json
-{
-  "batch_id": "b3a2c0c0-...",
-  "total": 3,
-  "successful": 3,
-  "failed": 0,
-  "latency_ms": 18250,
-  "results": [
-    { "filename": "jane.pdf",  "success": true,  "resume": {...}, "metadata": {...} },
-    { "filename": "alice.docx", "success": true, "resume": {...}, "metadata": {...} },
-    { "filename": "bob.pdf",   "success": true,  "resume": {...}, "metadata": {...} }
-  ]
+HEADERS = {
+    "X-RapidAPI-Key": "<your-key>",
+    "X-RapidAPI-Host": "resume-parser20.p.rapidapi.com",
 }
-```
 
-If any individual file fails, its entry has `success: false` with
-`error` and `error_code` populated; the rest succeed. For >25 files,
-split client-side or use `/parse-async`.
+def parse_one(path):
+    with open(path, "rb") as f:
+        r = requests.post(
+            "https://resume-parser20.p.rapidapi.com/parse",
+            headers=HEADERS,
+            files={"file": (path, f, "application/pdf")},
+            timeout=120,
+        )
+    return path, r.json()
+
+paths = ["jane.pdf", "alice.docx", "bob.pdf"]
+with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:
+    for path, result in ex.map(parse_one, paths):
+        print(path, "→", result["resume"]["identity"]["full_name"])
+```
 
 ## Response schema (ResumeV1)
 
