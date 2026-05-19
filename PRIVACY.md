@@ -11,7 +11,7 @@ _Last updated: 2026-05-19_
 
 This Privacy Policy applies to the Resume Parser API ("the Service",
 "we", "us"), accessible via RapidAPI at
-`https://rapidapi.com/<your-listing>/api/resume-parser-api`. It is
+`https://rapidapi.com/AcudoDev/api/resume-parser20`. It is
 designed to comply with the EU **General Data Protection Regulation
 (GDPR, Regulation (EU) 2016/679)** and the UK GDPR.
 

@@ -29,7 +29,7 @@ PDF / DOCX / image / text resumes into a structured JSON schema
 ## Get the API
 
 Listed on the RapidAPI marketplace:
-**https://rapidapi.com/<your-listing>/api/resume-parser-api**
+**https://rapidapi.com/AcudoDev/api/resume-parser20**
 
 A Free tier is available (50 calls / month, no card required) so you
 can evaluate the API before subscribing to a paid plan.

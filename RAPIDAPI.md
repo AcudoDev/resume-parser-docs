@@ -16,7 +16,7 @@ header:
 
 ```
 X-RapidAPI-Key: <your-key>
-X-RapidAPI-Host: resume-parser-api.p.rapidapi.com
+X-RapidAPI-Host: resume-parser20.p.rapidapi.com
 ```
 
 If you call the underlying service directly (bypassing RapidAPI), include
@@ -36,9 +36,9 @@ Best for interactive use. Blocks until the parse completes (~15s p50).
 
 **cURL**:
 ```bash
-curl -X POST "https://resume-parser-api.p.rapidapi.com/parse" \
+curl -X POST "https://resume-parser20.p.rapidapi.com/parse" \
   -H "X-RapidAPI-Key: <your-key>" \
-  -H "X-RapidAPI-Host: resume-parser-api.p.rapidapi.com" \
+  -H "X-RapidAPI-Host: resume-parser20.p.rapidapi.com" \
   -F "file=@/path/to/jane_doe.pdf"
 ```
 
@@ -47,10 +47,10 @@ curl -X POST "https://resume-parser-api.p.rapidapi.com/parse" \
 import requests
 
 resp = requests.post(
-    "https://resume-parser-api.p.rapidapi.com/parse",
+    "https://resume-parser20.p.rapidapi.com/parse",
     headers={
         "X-RapidAPI-Key": "<your-key>",
-        "X-RapidAPI-Host": "resume-parser-api.p.rapidapi.com",
+        "X-RapidAPI-Host": "resume-parser20.p.rapidapi.com",
     },
     files={"file": ("jane_doe.pdf", open("jane_doe.pdf", "rb"), "application/pdf")},
     timeout=60,
@@ -65,11 +65,11 @@ print(f"{data['resume']['skills'][0]['name']} → {data['resume']['skills'][0]['
 const form = new FormData();
 form.append("file", fileInput.files[0]);
 
-const r = await fetch("https://resume-parser-api.p.rapidapi.com/parse", {
+const r = await fetch("https://resume-parser20.p.rapidapi.com/parse", {
   method: "POST",
   headers: {
     "X-RapidAPI-Key": "<your-key>",
-    "X-RapidAPI-Host": "resume-parser-api.p.rapidapi.com",
+    "X-RapidAPI-Host": "resume-parser20.p.rapidapi.com",
   },
   body: form,
 });
@@ -88,7 +88,7 @@ until `status == "succeeded"` or `"failed"`.
 
 **Step 1 — submit**:
 ```bash
-curl -X POST "https://resume-parser-api.p.rapidapi.com/parse-async" \
+curl -X POST "https://resume-parser20.p.rapidapi.com/parse-async" \
   -H "X-RapidAPI-Key: <your-key>" \
   -F "file=@jane_doe.pdf"
 # → { "request_id": "f3e2c0c0-...", "status": "pending",
@@ -97,7 +97,7 @@ curl -X POST "https://resume-parser-api.p.rapidapi.com/parse-async" \
 
 **Step 2 — poll**:
 ```bash
-curl "https://resume-parser-api.p.rapidapi.com/parse/f3e2c0c0-..." \
+curl "https://resume-parser20.p.rapidapi.com/parse/f3e2c0c0-..." \
   -H "X-RapidAPI-Key: <your-key>"
 # → { "status": "running", ... }   # try again in 2-3s
 # → { "status": "succeeded", "resume": {...}, "metadata": {...} }
@@ -109,7 +109,7 @@ import time, requests
 
 def parse_async(path):
     submit = requests.post(
-        "https://resume-parser-api.p.rapidapi.com/parse-async",
+        "https://resume-parser20.p.rapidapi.com/parse-async",
         headers={"X-RapidAPI-Key": "<your-key>"},
         files={"file": open(path, "rb")},
     ).json()
@@ -118,7 +118,7 @@ def parse_async(path):
     while True:
         time.sleep(2)
         snap = requests.get(
-            f"https://resume-parser-api.p.rapidapi.com/parse/{rid}",
+            f"https://resume-parser20.p.rapidapi.com/parse/{rid}",
             headers={"X-RapidAPI-Key": "<your-key>"},
         ).json()
         if snap["status"] in ("succeeded", "failed"):
@@ -135,7 +135,7 @@ result is independent — a failed file does not fail the whole batch.
 
 **cURL**:
 ```bash
-curl -X POST "https://resume-parser-api.p.rapidapi.com/parse-batch" \
+curl -X POST "https://resume-parser20.p.rapidapi.com/parse-batch" \
   -H "X-RapidAPI-Key: <your-key>" \
   -F "files=@jane.pdf" \
   -F "files=@alice.docx" \
@@ -223,12 +223,6 @@ split client-side or use `/parse-async`.
   "metadata": {
     "request_id": "f3e2c0c0-1234-4abc-9def-0987654321ab",
     "schema_version": "1.0",
-    "model_used": "openai/gpt-4o-mini",
-    "models_used": {
-      "extract":       "openai/gpt-4o-mini",
-      "validate":      "openai/gpt-4o-mini",
-      "esco_disambig": "openai/gpt-4o-mini"
-    },
     "latency_ms": 15234,
     "pipeline_version": "v1.0.0"
   }

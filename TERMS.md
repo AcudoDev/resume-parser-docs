@@ -11,7 +11,7 @@ _Effective date: upon first use of the Service_
 These Terms of Service ("Terms") govern your access to and use of the
 Resume Parser API ("the Service", "we", "us", "our"), accessible
 through the RapidAPI marketplace at
-`https://rapidapi.com/<your-listing>/api/resume-parser-api`.
+`https://rapidapi.com/AcudoDev/api/resume-parser20`.
 
 By calling the Service or subscribing to a pricing plan, you ("you",
 "Customer") accept these Terms in full. If you do not accept them, do
