@@ -218,13 +218,12 @@ The body of any error is JSON: `{"detail": "human-readable explanation"}`.
 ## Limits
 
 - **File size**: 10 MB per file (uncompressed)
-- **Batch size**: 25 files per `/parse-batch` call
-- **Rate**: 60 requests/min per IP for `/parse`, `/parse-async`; 10/min for `/parse-batch`
+- **Rate**: varies by your RapidAPI plan; see the Pricing tab
 - **Pipeline budgets**: 90s extract, 60s validate, 30s per ESCO Tier-3 disambig
-- **Async TTL**: 1 hour after completion before GC
+- **Quota**: 1 call deducts 1 unit from your monthly plan quota
 
-These are the *server-side* limits. Your RapidAPI plan may impose tighter
-quotas; see your dashboard for per-key call counts.
+Your RapidAPI subscription tier sets the monthly quota and per-second
+rate limit; see the Pricing tab on the listing for the current values.
 
 ## Operational endpoints
 

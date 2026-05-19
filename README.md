@@ -20,8 +20,7 @@ PDF / DOCX / image / text resumes into a structured JSON schema
 (`ResumeV1`), with skills normalized to the European Commission's
 **ESCO taxonomy** and per-section **confidence scores**.
 
-- ~15 s p50 latency, ~22 s p95
-- Three endpoints: synchronous, async-with-polling, batch
+- One endpoint: `POST /parse`, sync, ~15s p50 / ~22s p95
 - ESCO URIs on every detected skill
 - Scanned PDFs supported natively (vision pipeline)
 - EU-hosted infrastructure (Amsterdam)
