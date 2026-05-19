@@ -255,7 +255,7 @@ When `value < 0.7`, the `reason` field describes what couldn't be verified.
 `A1`, `A2`, `B1`, `B2`, `C1`, `C2`, or `native`. `null` when no
 proficiency was mentioned in the resume.
 
-## Error codes
+## Response codes
 
 | HTTP | Meaning | What to do |
 |---:|---|---|
