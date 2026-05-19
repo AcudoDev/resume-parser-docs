@@ -106,13 +106,13 @@ by reference. Key points:
   success status) for 90 days for billing and abuse prevention.
 - For EU/UK users, we act as a GDPR data processor; you are the
   controller for the resumes you submit. A Data Processing Agreement
-  template is available on request at `support@your-domain.com`.
+  template is available on request at `solutions@slifer.fr`.
 
 ## 7. Service availability
 
 We target 99.5% monthly uptime but **do not commit to a contractual
 SLA at the Free, Pro, Ultra tiers**. For enterprise commitments with
-formal SLAs and dedicated support, contact `support@your-domain.com`.
+formal SLAs and dedicated support, contact `solutions@slifer.fr`.
 
 Planned maintenance is announced 24 hours in advance via the
 RapidAPI dashboard "API status" field. Emergency maintenance may be
@@ -194,4 +194,4 @@ Continued use after the effective date constitutes acceptance.
 ## 14. Contact
 
 For any question about these Terms:
-**support@your-domain.com**
+**solutions@slifer.fr**

@@ -36,4 +36,4 @@ can evaluate the API before subscribing to a paid plan.
 
 ## Contact
 
-`support@your-domain.com`
+`solutions@slifer.fr`

@@ -18,7 +18,7 @@ designed to comply with the EU **General Data Protection Regulation
 ## 1. Data Controller
 
 The data controller is the operator of the Service. Contact:
-**support@your-domain.com** (replace before launch).
+**solutions@slifer.fr**.
 
 ## 2. What we process
 
@@ -125,7 +125,7 @@ right to:
   that is your national Data Protection Authority; for UK users, the
   ICO.
 
-To exercise any of these, email **support@your-domain.com** with your
+To exercise any of these, email **solutions@slifer.fr** with your
 RapidAPI user identifier and a description of your request. We respond
 within 30 days as required by Art. 12.
 
@@ -155,4 +155,4 @@ practicable.
 
 ## 11. Contact
 
-Questions, GDPR requests, or DPA requests: **support@your-domain.com**
+Questions, GDPR requests, or DPA requests: **solutions@slifer.fr**
