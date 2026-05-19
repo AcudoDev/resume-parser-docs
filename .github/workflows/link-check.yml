@@ -1,0 +1,48 @@
+name: Link check
+
+# The docs repo carries the customer-facing Privacy Policy, Terms of
+# Service, and Developer Guide URLs that RapidAPI's moderators inspect
+# during listing approval. A broken link blocks submission.
+#
+# This workflow runs lychee (a fast Rust-based link checker) on every
+# push to main, every PR, and once a week to catch link rot (external
+# sites going down, deprecated URLs, etc.).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Mondays at 09:00 UTC — early warning if any of the third-party
+    # URLs (ESCO, CEFR, EU Data Privacy Framework) moved.
+    - cron: '0 9 * * 1'
+  workflow_dispatch: {}
+
+concurrency:
+  group: link-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lychee:
+    name: Validate all Markdown links
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # `--no-progress` quiets the noisy CI output; `--accept` adds
+          # the codes that are fine even though lychee defaults to
+          # flagging them (429 = rate-limited by target site, not our
+          # bug; 403 = some sites block bots but the link works in a
+          # browser).
+          args: |
+            --verbose
+            --no-progress
+            --max-concurrency 4
+            --accept 200,206,429,403
+            ./*.md
+          fail: true
